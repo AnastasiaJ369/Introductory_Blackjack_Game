@@ -1,3 +1,21 @@
 body {
     background-image: url('spades table background.jpg');
+    background-size: cover;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.cards-container {
+    height: 150px;
+    width: 100px;
+    display: flex;
+    border: 2px solid black;
+    border-radius: 2px;
+    margin: auto;
+    margin-top: 200px;
+    perspective: 1000px; /* Enables 3D space for child elements */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+.card-front {
+    background-color: white;
 }

@@ -16,6 +16,15 @@
             <div id = "player-bottom" class = "player-hand"></div> <!--Will be the human player, other 3
             will be AI-->
         </div>
+        <div class = "cards-container">
+            <div id = "card" class = "card"></div> <!--Card template to be cloned and populated with
+            card data-->
+                <div id = "card-inner" class = "card-inner">
+                    <div id = "card-front" class = "card-front"></div>
+                    <div id = "card-back" class = "card-back">
+                        <!-- <img src="cardback.jpg" alt="card back" class="card back image"> -->
+                    </div>
+        </div>
         <div class = "trick-area">
             <div id = "played-cards" class = "played-cards"></div> <!--Cards need to be placed in center
             of game area, highest winning card determined, and played cards sent to winning player, taking
@@ -27,10 +36,11 @@
             <div id = "points" class = "points"></div> <!--Total number of points for teams after game ends-->
             <div id = "bids" class = "bids"></div> <!--Bids need to appear for each player-->
         </div>
-    <!-- <div id = "controls">
-        <button id = "deal">Deal</button>
-        <button id = "bid">Bid</button>
-        <button id = "continue">Continue</button>
-        <button id = "reset">Reset</button> -->
+        <!--<div id = "controls">
+            <button id = "deal">Deal</button>
+            <button id = "bid">Bid</button>
+            <button id = "continue">Continue</button>
+            <button id = "reset">Reset</button>
+        </div> -->
     </div>
 </body>
