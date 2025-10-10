@@ -9,40 +9,28 @@
 </head>
 <body>
     <div class = "game-container">
-        <div id = "player-left" class = "player-hand"></div>
-        <div id = "player-top" class = "player-hand"></div>
-        <div id = "player-right" class = "player-hand"></div>
-        <div id = "player-bottom" class = "player-hand"></div>
-  
-        <div class = "table-container">
-            <div id = "trick-area" class = "trick-area"></div>
-            <div id = "scoreboard" class = "scoreboard"></div>
+        <div id = "player-area">
+            <div id = "player-left" class = "player-hand"></div>
+            <div id = "player-top" class = "player-hand"></div>
+            <div id = "player-right" class = "player-hand"></div>
+            <div id = "player-bottom" class = "player-hand"></div> <!--Will be the human player, other 3
+            will be AI-->
         </div>
-        <div class = "cards-container">
-            <div class = "flip-card" id = "flip-card">
-                 <div class = "front">
-                    <div class = "corner-top-left">
-                        <span class = "rank">A</span>
-                        <span class = "suit">♠</span>
-                </div>
-                    <div class = "center-suit">
-                        <span class = "center-suit">♠</span>
-                    </div>
-                    <div class = "corner-bottom-right">
-                        <span class = "rank">A</span>
-                        <span class = "suit">♠</span>
-                    </div>
-            </div>
-                <div class = "back"></div>
+        <div class = "trick-area">
+            <div id = "played-cards" class = "played-cards"></div> <!--Cards need to be placed in center
+            of game area, highest winning card determined, and played cards sent to winning player, taking
+            from their bid counter each hand they win-->
+            <div id = "deck" class = "deck"></div> <!--Deck needs to be placed centrally initially, 
+            shuffled, and dealt to the four players-->
         </div>
-        <div class = "player-container">
-            <div id = "dealt-cards" class = "dealt-cards"></div>
-            <div id = "personal-bid" class = "personal-bid"></div>
+        <div class = "scoreboard-area">
+            <div id = "points" class = "points"></div> <!--Total number of points for teams after game ends-->
+            <div id = "bids" class = "bids"></div> <!--Bids need to appear for each player-->
         </div>
     <!-- <div id = "controls">
         <button id = "deal">Deal</button>
         <button id = "bid">Bid</button>
         <button id = "continue">Continue</button>
-        <button id = "reset">Reset</button>
-    </div> -->
+        <button id = "reset">Reset</button> -->
+    </div>
 </body>
