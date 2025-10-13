@@ -1,21 +1,17 @@
 body {
-    background-image: url('spades table background.jpg');
+    background-image: url('Blackack background2.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
     background-size: cover;
-    font-family: Arial, sans-serif;
+    height: 100vh;
     margin: 0;
-    padding: 0;
 }
-.cards-container {
-    height: 150px;
+.card {
+    height: 200px;
     width: 100px;
-    display: flex;
     border: 2px solid black;
-    border-radius: 2px;
-    margin: auto;
-    margin-top: 200px;
-    perspective: 1000px; /* Enables 3D space for child elements */
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-}
-.card-front {
+    border-radius: 10px;
+    padding: 10px; /* Space between an element's content and it's border */
     background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
