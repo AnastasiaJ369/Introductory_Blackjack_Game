@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack!</title>
+    <link rel="stylesheet" href="Blackjack.css">
+    <script src="Blackjack.js" defer></script>
+</head>
+<body>
+    <div class = "game-container">
+        <div id = "player-container">
+            <div id = "dealer" class = "player-hand"></div> <!--Will be the AI dealer-->
+            <div id = "player-bottom" class = "player-hand"></div> <!--Will be the human player-->
+        </div>
+        <div class = "cards-container">
+            <div id = "card" class = "card"></div> <!--Card template to be cloned and populated with
+            card data-->
+                <div id = "card-inner" class = "card-inner">
+                    <div id = "card-front" class = "card-front"></div>
+                    <div id = "card-back" class = "card-back">
+                        <!-- <img src="cardback.jpg" alt="card back" class="card back image"> -->
+                    </div>
+        </div>
+        <div class = "table-container">
+            <div id = "played-cards" class = "played-cards"></div> <!--Cards need to be delt to player at bottom and dealer at top-->
+            <div id = "deck" class = "deck"></div> <!--Deck needs to be placed in top right of board, cards distributed from there-->
+        </div>
+        <div class = "scoreboard-area">
+            <div id = "points" class = "points"></div> <!--Total number of points for player to start with and after each round ends-->
+            <div id = "bids" class = "bids"></div> <!--Bids need to appear for player at bottom prior to initiating rest of game-->
+        </div>
+        <!--<div id = "controls">
+            <button id = "deal">Deal</button>
+            <button id = "bid">Bid</button>
+                <button id = "button10">$10</button>
+                <button id = "button50">$50</button>
+                <button id = "button100">$100</button>
+                <button id = "button500">$500</button>
+                <button id = "button1000">$1000</button>
+            <button id = "double-down">Double Down</button>
+            <button id = "hit">Hit</button
+            <button id = "stand">Stand</button>
+            <button id = "reset">Reset</button>
+        </div> -->
+    </div>
+</body>
