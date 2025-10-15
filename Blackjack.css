@@ -11,14 +11,13 @@ body {
     height: 100vh;
     margin: 0;
 }
-.card {
-    height: 200px;
-    width: 100px;
-    border: 2px solid black;
-    border-radius: 10px;
-    padding: 10px; /* Space between an element's content and it's border */
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.card-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px; /* Space between cards */
+    justify-content: center;
+    margin-top: 20px;
 }
 .card.red {
     color: red;
