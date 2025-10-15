@@ -32,9 +32,6 @@ function renderAPICards(cards) {
         cardDiv.className = 'card';
         cardDiv.innerHTML = `
             <div class="card-inner">
-                <div class="card-front">
-                    <img src="${card.image}" alt="${card.value} of ${card.suit}">
-                </div>
                 <div class="card-back">
                     <img src="https://deckofcardsapi.com/static/img/back.png" alt="Card Back">
                 </div>
@@ -44,3 +41,8 @@ function renderAPICards(cards) {
         cardContainer.appendChild(cardDiv);
     });
 }
+
+const card = document.querySelector('.card');
+card.addEventListener('click', () => {
+    card.classList.toggle('flipped');
+});
