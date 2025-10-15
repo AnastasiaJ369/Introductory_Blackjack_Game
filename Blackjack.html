@@ -10,22 +10,12 @@
 <body>
     <div class = "game-container">
         <div id = "player-container">
-            <div id = "dealer" class = "player-hand"></div> <!--Will be the AI dealer-->
             <div id = "player-bottom" class = "player-hand"></div> <!--Will be the human player-->
         </div>
-        <div class = "cards-container">
-            <div id = "card" class = "card"></div> <!--Card template to be cloned and populated with
-            card data-->
-                <div id = "card-inner" class = "card-inner">
-                    <div id = "card-front" class = "card-front">
-                        <div class = "card-top-left"></div>
-                        <div class = "card-center"></div>
-                        <div class = "card-bottom-right"></div>
-                    </div>
-                    <div id = "card-back" class = "card-back">
-                        <!-- <img src="cardback.jpg" alt="card back" class="card back image"> -->
-                    </div>
+        <div id = "dealer-container">
+            <div id = "dealer-top" class = "dealer-hand"></div> <!--Will be the dealer-->
         </div>
+        <div id="cards-container" class="cards-container"></div> <!-- Container for rendering the full deck -->
         <div class = "table-container">
             <div id = "played-cards" class = "played-cards"></div> <!--Cards need to be delt to player at bottom and dealer at top-->
             <div id = "deck" class = "deck"></div> <!--Deck needs to be placed in top right of board, cards distributed from there-->
