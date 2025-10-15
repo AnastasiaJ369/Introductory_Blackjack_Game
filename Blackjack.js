@@ -68,6 +68,7 @@ function renderDeck(deck) {
         cardContainer.appendChild(cardElement);
     }
 }
+
 document.addEventListener('DOMContentLoaded', () => {
     const deck = new Deck();
     deck.shuffleDeck();
