@@ -11,9 +11,29 @@ body {
     height: 100vh;
     margin: 0;
 }
-.card-container {
-    gap: 10px; /* Space between cards */
-    justify-content: center;
-    margin-right: 20px;
-    height: 80vH;
+.table-container {
+    position: relative;
 }
+.card-container {
+    position: absolute;
+    top: 20px;
+    left: 60px;;
+    padding-right: 20px;
+    gap: 20px;
+}
+.controls-container {
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+button:hover {
+    background-color: #0fd2f5;
+}   

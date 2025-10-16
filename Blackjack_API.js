@@ -73,7 +73,7 @@ function renderStackedCards(count) {
         const cardDiv = document.createElement('div');
         cardDiv.className = 'card back-stack';
         cardDiv.style.position = 'absolute';
-        cardDiv.style.left = '0px';
+        cardDiv.style.right = '0px';
         cardDiv.style.top = '0px';
         const offset = Math.floor(i / 8); // subtle offset every 8 cards
         cardDiv.style.transform = `translate(${offset}px, ${offset}px)`;
