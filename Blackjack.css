@@ -12,22 +12,8 @@ body {
     margin: 0;
 }
 .card-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
     gap: 10px; /* Space between cards */
     justify-content: center;
-    margin-top: 20px;
-    width: 80%;
-    height: 60vH;
-}
-.card {
-    box-shadow: 2px 2px 2px white;
-    border-radius: 10px;
-}
-.card.red {
-    color: red;
-}
-.card.black {
-    color: black;
+    margin-right: 20px;
+    height: 80vH;
 }
