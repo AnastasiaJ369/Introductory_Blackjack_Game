@@ -1,6 +1,8 @@
-BLACKJACK GAME!
+BLACKJACK GAME! 
 
 Made with JS, CSS, and HTML, the idea of this personal project was to create a functioning Blackjack card game! 
+
+Deck of Cards API https://deckofcardsapi.com was also used in this production!
 
 Single-player against PC, users will be able to bid various amounts ($10, $50, $100, $500, $1,000) with a scoreboard to keep track of their money, initialing beginning with an amount of $2500! Users will also be able to "hit" or "stand", following the basic rules of the game!
 

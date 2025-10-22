@@ -1,4 +1,98 @@
-/* --- Blackjack helpers (merged from BlackjackHelpers.js) --- */
+fetch ('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6')
+    //const url = new URL('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6');
+    //const pathSegments = url.pathname.split('/');
+    //const deckId = pathSegments[pathSegments.length - 6];
+
+    //console.log(deckId) would produce the deck id
+
+    //.then property handles the promise returned by fetch
+    .then(response => response.json())
+    .then(data => {
+        // Use the initial new/shuffle response only — do NOT draw all cards here.
+        const deckId = data.deck_id;
+        window.latestDeckId = deckId;
+        console.log('Deck ID:', deckId);
+        // The response includes how many cards are remaining (deck_count * 52)
+        const count = data.remaining || 6 * 52;
+        window.latestDeckCount = count;
+        console.log('Initial deck remaining:', count);
+        renderStackedCards(count);
+        showDeckInfo(window.latestDeckId, count);
+        // dispatch a custom event so other scripts know the deck is ready
+        const ev = new CustomEvent('deckReady', { detail: { deckId: window.latestDeckId, count } });
+        window.dispatchEvent(ev);
+    })
+//catches and logs any errors that occur during the fetch requests
+.catch(error => {
+    console.error('Error:', error);
+});
+
+function renderAPICards(cards) {
+    const cardContainer = document.getElementById('card-container');
+    //Validation check that container exists, stops execution if not found
+    if (!cardContainer) return;
+    cardContainer.innerHTML = '';
+    // Iterate over each card and create its HTML representation
+    cards.forEach (card => {
+        //new div for each card
+        const cardDiv = document.createElement('div');
+        //assign css class and inner HTML structure for card
+        cardDiv.className = 'card';
+        cardDiv.innerHTML = `
+            <div class="card-inner">
+                <div class="card-back">
+                    <img src="https://deckofcardsapi.com/static/img/back.png" alt="Card Back">
+                </div>
+                <div class="card-front">
+                    <img src="${card.image}" alt="${card.value} of ${card.suit}">
+                </div>              
+            </div>
+        `;
+        //adds to parent container in HTML: card-container
+        cardContainer.appendChild(cardDiv);
+    });
+}
+/* Render a stacked pile of card backs (face-down). Each card is absolutely 
+ * positioned inside the container so they visually overlap into a single pile.
+ */
+function renderStackedCards(count) {
+    const cardContainer = document.getElementById('card-container');
+    if (!cardContainer) return;
+    cardContainer.innerHTML = '';
+    // ensure the container has an explicit size so absolutely positioned card backs are visible
+    if (!cardContainer.style.width) cardContainer.style.width = '120px';
+    if (!cardContainer.style.height) cardContainer.style.height = '170px';
+    // ensure container is positioned so absolutely positioned children align
+    if (window.getComputedStyle(cardContainer).position === 'static') {
+        cardContainer.style.position = 'relative';
+    }
+
+    const backUrl = 'https://deckofcardsapi.com/static/img/back.png';
+    const cardWidth = 100;
+    const cardHeight = 145;
+
+    // Count variable is the number of cards to render in the stack
+    for (let i = 0; i < count; i++) {
+
+        //div container for each card back
+        const cardDiv = document.createElement('div');
+        //two CSS classes: 'card' for styling, 'back-stack' for specific back styling
+        cardDiv.className = 'card back-stack';
+        //ensures the cards can be layered on top of each other
+        cardDiv.style.position = 'absolute';
+        cardDiv.style.right = '0px';
+        cardDiv.style.top = '0px';
+        //creates a staggered effect by slightly offsetting every 10 cards
+        const offset = Math.floor(i / 10);
+        //shifts each card down and to the right by the offset amount
+        cardDiv.style.transform = `translate(${offset}px, ${offset}px)`;
+        //z-index ensures cards stack in correct order, last card on top
+        cardDiv.style.zIndex = `${i}`;
+        cardDiv.innerHTML = `<img src="${backUrl}" alt="Card Back" style="width:${cardWidth}px;height:${cardHeight}px;display:block;">`;
+        cardContainer.appendChild(cardDiv);
+    }
+}
+
 (function () {
 const rankValue = {
     '2': 2, '3': 3, '4': 4, '5': 5, '6': 6,
@@ -144,103 +238,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-/* --- end game logic --- */
-fetch ('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6')
-    //const url = new URL('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6');
-    //const pathSegments = url.pathname.split('/');
-    //const deckId = pathSegments[pathSegments.length - 6];
-
-    //console.log(deckId) would produce the deck id
-
-    //.then property handles the promise returned by fetch
-    .then(response => response.json())
-    .then(data => {
-        // Use the initial new/shuffle response only — do NOT draw all cards here.
-        const deckId = data.deck_id;
-        window.latestDeckId = deckId;
-        console.log('Deck ID:', deckId);
-        // The response includes how many cards are remaining (deck_count * 52)
-        const count = data.remaining || 6 * 52;
-        window.latestDeckCount = count;
-        console.log('Initial deck remaining:', count);
-        renderStackedCards(count);
-        showDeckInfo(window.latestDeckId, count);
-        // dispatch a custom event so other scripts know the deck is ready
-        const ev = new CustomEvent('deckReady', { detail: { deckId: window.latestDeckId, count } });
-        window.dispatchEvent(ev);
-    })
-//catches and logs any errors that occur during the fetch requests
-.catch(error => {
-    console.error('Error:', error);
-});
-
-function renderAPICards(cards) {
-    const cardContainer = document.getElementById('card-container');
-    //Validation check that container exists, stops execution if not found
-    if (!cardContainer) return;
-    cardContainer.innerHTML = '';
-    // Iterate over each card and create its HTML representation
-    cards.forEach (card => {
-        //new div for each card
-        const cardDiv = document.createElement('div');
-        //assign css class and inner HTML structure for card
-        cardDiv.className = 'card';
-        cardDiv.innerHTML = `
-            <div class="card-inner">
-                <div class="card-back">
-                    <img src="https://deckofcardsapi.com/static/img/back.png" alt="Card Back">
-                </div>
-                <div class="card-front">
-                    <img src="${card.image}" alt="${card.value} of ${card.suit}">
-                </div>              
-            </div>
-        `;
-        //adds to parent container in HTML: card-container
-        cardContainer.appendChild(cardDiv);
-    });
-}
-/* Render a stacked pile of card backs (face-down). Each card is absolutely 
- * positioned inside the container so they visually overlap into a single pile.
- */
-function renderStackedCards(count) {
-    const cardContainer = document.getElementById('card-container');
-    if (!cardContainer) return;
-    cardContainer.innerHTML = '';
-    // ensure the container has an explicit size so absolutely positioned card backs are visible
-    if (!cardContainer.style.width) cardContainer.style.width = '120px';
-    if (!cardContainer.style.height) cardContainer.style.height = '170px';
-    // ensure container is positioned so absolutely positioned children align
-    if (window.getComputedStyle(cardContainer).position === 'static') {
-        cardContainer.style.position = 'relative';
-    }
-
-    const backUrl = 'https://deckofcardsapi.com/static/img/back.png';
-    const cardWidth = 100;
-    const cardHeight = 145;
-
-    // Count variable is the number of cards to render in the stack
-    for (let i = 0; i < count; i++) {
-
-        //div container for each card back
-        const cardDiv = document.createElement('div');
-        //two CSS classes: 'card' for styling, 'back-stack' for specific back styling
-        cardDiv.className = 'card back-stack';
-        //ensures the cards can be layered on top of each other
-        cardDiv.style.position = 'absolute';
-        cardDiv.style.right = '0px';
-        cardDiv.style.top = '0px';
-        //creates a staggered effect by slightly offsetting every 10 cards
-        const offset = Math.floor(i / 10);
-        //shifts each card down and to the right by the offset amount
-        cardDiv.style.transform = `translate(${offset}px, ${offset}px)`;
-        //z-index ensures cards stack in correct order, last card on top
-        cardDiv.style.zIndex = `${i}`;
-        cardDiv.innerHTML = `<img src="${backUrl}" alt="Card Back" style="width:${cardWidth}px;height:${cardHeight}px;display:block;">`;
-        cardContainer.appendChild(cardDiv);
-    }
-}
-
-// show deck id and count in a small UI element to help debugging
 function showDeckInfo(deckId, count) {
     let el = document.getElementById('deck-info');
     if (!el) {
