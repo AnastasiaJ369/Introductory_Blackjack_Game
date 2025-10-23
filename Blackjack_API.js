@@ -92,7 +92,7 @@ function renderStackedCards(count) {
         cardContainer.appendChild(cardDiv);
     }
 }
-
+//block scoped function expression to assign values to each card rank
 (function () {
 const rankValue = {
     '2': 2, '3': 3, '4': 4, '5': 5, '6': 6,
@@ -100,6 +100,7 @@ const rankValue = {
     'J': 10, 'Q': 10, 'K': 10,
     'A': 11 // start as 11, reduce later if needed
 };
+//converts API card value to internal rank representation
 function apiValueToRank(apiValue) {
     if (!apiValue) return apiValue;
     const v = apiValue.toString().toUpperCase();
@@ -107,8 +108,10 @@ function apiValueToRank(apiValue) {
     if (v === 'KING') return 'K';
     if (v === 'QUEEN') return 'Q';
     if (v === 'JACK') return 'J';
-    return v; // '2'..'10'
+    return v || null; // '2'..'10'
 }
+
+//converts a card object from the API into internal representation
 function convertApiCard(apiCard) {
     return {
         rank: apiValueToRank(apiCard.value || apiCard.rank),
@@ -117,7 +120,7 @@ function convertApiCard(apiCard) {
     image: apiCard.image
     };
 }
-
+//calculates the total value of a hand of cards in blackjack
 function handValue(cards) {
     let total = 0;
     let aces = 0;
@@ -144,7 +147,7 @@ function handValue(cards) {
     const isSoft = aces > acesUsedAsEleven;
     return { total, isSoft, acesUsedAsEleven };
 }
-
+// Expose helper functions globally
 window.blackjackHelpers = {
     rankValue,
     apiValueToRank,
@@ -152,6 +155,7 @@ window.blackjackHelpers = {
     handValue
 };
 })();
+//Display starting points on page load
 document.addEventListener('DOMContentLoaded', () => {
     const pointsEl = document.getElementById('points');
     if (pointsEl) {
@@ -159,45 +163,56 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-/* --- Blackjack game logic (merged from BlackjackGame.js) --- */
+// Handle "Deal" button click to draw initial hands
 document.addEventListener('DOMContentLoaded', () => {
     const dealBtn = document.getElementById('deal');
     if (!dealBtn) return;
     // start disabled until deck is ready
     dealBtn.disabled = true;
 
+    // when deck is ready, enable the button 
     function enableWhenReady() {
         dealBtn.disabled = false;
     }
 
+    // Check if the deck is already ready
     if (window.latestDeckId) enableWhenReady();
     window.addEventListener('deckReady', enableWhenReady, { once: true });
 
+    // Handle "Deal" button click to draw initial hands
     dealBtn.addEventListener('click', async () => {
+        
+        // Validation check for deck ID
         if (!window.latestDeckId) {
             console.error('No deck id available. Make sure the deck is ready.');
             return;
         }
 
+        // Draw 4 cards: 2 for player, 2 for dealer
         try {
             console.log('Drawing 4 cards from deck:', window.latestDeckId);
             const res = await fetch(`https://deckofcardsapi.com/api/deck/${window.latestDeckId}/draw/?count=4`);
             const data = await res.json();
             console.log('Draw result:', data);
             const apiCards = data.cards || [];
+            // code inside if block only runs if no cards were drawn
             if (!apiCards.length) {
                 console.warn('Draw returned no cards:', data);
                 alert('Draw returned no cards — check deck ID and API response (see console).');
             }
 
+            // Convert API cards to internal representation
             const converted = apiCards.map(c => blackjackHelpers.convertApiCard(c));
-            const dealerHand = [converted[0], converted[2]].filter(Boolean);
-            const playerHand = [converted[1], converted[3]].filter(Boolean);
+            // Dealer gets 1st and 2nd cards, Player gets 3rd and 4th cards
+            const dealerHand = [converted[0], converted[1]].filter(Boolean);
+            const playerHand = [converted[2], converted[3]].filter(Boolean);
             console.log('Dealer hand:', dealerHand, 'Player hand:', playerHand);
 
             const playerContainer = document.getElementById('player-bottom');
             if (playerContainer) {
+                // Clears previous player cards
                 playerContainer.innerHTML = '';
+                // Iterates over every card in player array, Renders player's cards face-up
                 playerHand.forEach(c => {
                     const el = document.createElement('div');
                     el.className = 'card';
@@ -205,17 +220,21 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="card-inner">
                             <div class="card-front"><img src="${c.image}" alt="${c.code}" style="width:80px;height:116px;display:block"></div>
                         </div>`;
+                    // card is added to player container in HTML and visible to user
                     playerContainer.appendChild(el);
                 });
             }
 
+            // Update player hand value display
             const hv = blackjackHelpers.handValue(playerHand);
             const playerTotalEl = document.getElementById('player-total');
+            // Updates the player's hand value including soft/hard indication
             if (playerTotalEl) {
                 playerTotalEl.textContent = `Player: ${hv.total}` + (hv.isSoft ? ' (soft)' : '');
             }
 
             const dealerContainer = document.getElementById('dealer-top');
+            // Renders dealer's first card face-up and second card face-down
             if (dealerContainer) {
                 dealerContainer.innerHTML = '';
                 if (dealerHand[0]) {
@@ -231,13 +250,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     dealerContainer.appendChild(el2);
                 }
             }
-
         } catch (err) {
             console.error('Deal failed', err);
         }
     });
 });
-
+// Displays deck ID and remaining card count on screen
 function showDeckInfo(deckId, count) {
     let el = document.getElementById('deck-info');
     if (!el) {
@@ -251,11 +269,12 @@ function showDeckInfo(deckId, count) {
         el.style.color = '#fff';
         el.style.borderRadius = '6px';
         el.style.zIndex = '2000';
+        //hides the display from users
+        el.style.display = 'none';
         document.body.appendChild(el);
     }
     el.textContent = `Deck: ${deckId || '—'}  Count: ${count}`;
 }
-
 document.addEventListener('DOMContentLoaded', () => {
     const pointsEl = document.getElementById('points');
     if (pointsEl) {
@@ -263,3 +282,4 @@ document.addEventListener('DOMContentLoaded', () => {
         pointsEl.textContent = '$2500';
     }
 });
+
