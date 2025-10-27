@@ -278,7 +278,7 @@ function showDeckInfo(deckId, count) {
 document.addEventListener('DOMContentLoaded', () => {
     const pointsEl = document.getElementById('points');
     if (pointsEl) {
-        // example starting points — in a real game you would compute/update this
+        // starting points
         pointsEl.textContent = '$2500';
     }
 });
